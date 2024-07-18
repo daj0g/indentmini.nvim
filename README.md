@@ -16,6 +16,7 @@ available config values in setup table.
 - char     -- string type default is `│`,
 - exclude  -- table  type add exclude filetype in this table ie `{ 'markdown', 'xxx'}`
 - minlevel -- number the min level that show indent line default is 1
+- enabled  -- if indent lines are enabled default is true
 
 ```lua
 config = function()
@@ -35,5 +36,9 @@ vim.cmd.highlight('IndentLine guifg=#123456')
 -- Current indent line highlight
 vim.cmd.highlight('IndentLineCurrent guifg=#123456')
 ```
+
+## Toggle state
+
+use `:IndentminiToggle` to enable / disable the indent lines
 
 ## License MIT

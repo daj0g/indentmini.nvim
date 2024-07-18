@@ -138,6 +138,14 @@ local function on_win(_, winid, bufnr, toprow, botrow)
   end
 end
 
+local function on_start()
+  return opt.enabled
+end
+
+api.nvim_create_user_command("IndentminiToggle", function()
+  opt.enabled = not opt.enabled
+end, {})
+
 return {
   setup = function(conf)
     conf = conf or {}
@@ -145,6 +153,7 @@ return {
     vim.list_extend(opt.exclude, conf.exclude or {})
     opt.config.virt_text = { { conf.char or '│' } }
     opt.minlevel = conf.minlevel or 1
-    set_provider(ns, { on_win = on_win, on_line = on_line })
+    opt.enabled = conf.enabled ~= false
+    set_provider(ns, { on_start = on_start, on_win = on_win, on_line = on_line })
   end,
 }
