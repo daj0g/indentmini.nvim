@@ -17,6 +17,7 @@ available config values in setup table.
 - exclude  -- table  type add exclude filetype in this table ie `{ 'markdown', 'xxx'}`
 - minlevel -- number the min level that show indent line default is 1
 - only_current -- boolean default is false when true will only highlight current range
+- enabled  -- boolean defaut is true
 
 ```lua
 config = function()
@@ -36,5 +37,16 @@ vim.cmd.highlight('IndentLine guifg=#123456')
 -- Current indent line highlight
 vim.cmd.highlight('IndentLineCurrent guifg=#123456')
 ```
+
+## Toggle Indent Lines
+
+In order to toggle the indent lines simply run:
+
+```lua
+Lua
+vim.api.nvim_command('IndentLineToggle')
+```
+
+
 
 ## License MIT
