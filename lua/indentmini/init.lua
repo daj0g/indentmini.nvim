@@ -10,6 +10,7 @@ local opt = {
     hl_mode = 'combine',
     ephemeral = true,
   },
+  enabled = true,
 }
 
 ffi.cdef([[
@@ -282,6 +283,18 @@ local function on_win(_, winid, bufnr, toprow, botrow)
   find_current_range(find_in_snapshot(context.currow + 1).indent, context.currow)
 end
 
+local function on_start()
+  return opt.enabled
+end
+
+api.nvim_create_user_command("IndentminiToggle", function()
+  opt.enabled = not opt.enabled
+  local state = opt.enabled and "enabled" or "disabled"
+  vim.notify("Indent lines " .. state, vim.log.levels.INFO)
+  vim.cmd('redraw!')
+  -- vim.api.nvim__redraw('win')
+end, {desc = "Toggle indent line"})
+
 return {
   setup = function(conf)
     conf = conf or {}
@@ -289,6 +302,7 @@ return {
     opt.exclude = vim.list_extend(opt.exclude, conf.exclude or {})
     opt.config.virt_text = { { conf.char or '│' } }
     opt.minlevel = conf.minlevel or 1
-    set_provider(ns, { on_win = on_win, on_line = on_line })
+    opt.enabled = conf.enabled or false
+    set_provider(ns, {on_start = on_start, on_win = on_win, on_line = on_line })
   end,
 }
